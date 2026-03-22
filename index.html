@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Антифрод аналитик</title>
+<style>
+/* --- BODY + СЕТКА + СВЕЧЕНИЕ --- */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #fff;
+  overflow-x: hidden;
+  background: radial-gradient(circle at 20% 20%, #1a1a2e, #0a0a0a 40%),
+              radial-gradient(circle at 80% 80%, #0f172a, #000 60%);
+}
+body::before {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: -1;
+  animation: grid-flicker 3s infinite alternate;
+}
+body::after {
+  content: "";
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(34,197,94,0.15), transparent 70%);
+  top: 10%;
+  left: 60%;
+  filter: blur(100px);
+  z-index: -1;
+  animation: glow-pulse 4s infinite alternate;
+}
+
+/* --- Анимации --- */
+@keyframes grid-flicker {
+  0% { background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); }
+  50% { background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+                                linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px); }
+  100% { background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); }
+}
+@keyframes glow-pulse {
+  0% { filter: blur(80px); opacity: 0.7; }
+  50% { filter: blur(120px); opacity: 1; }
+  100% { filter: blur(80px); opacity: 0.7; }
+}
+
+/* --- HEADER --- */
+header {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 10%;
+}
+h1 { font-size: 64px; max-width: 700px; line-height: 1.1; }
+.subtitle { color: #aaa; font-size: 20px; margin-top: 20px; max-width: 500px; }
+.btn {
+  margin-top: 40px;
+  padding: 14px 30px;
+  background: white;
+  color: black;
+  text-decoration: none;
+  border-radius: 30px;
+  width: fit-content;
+  transition: 0.3s;
+}
+.btn:hover { transform: scale(1.05); background: #ddd; }
+
+/* --- SECTIONS --- */
+section { padding: 120px 10%; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+.card {
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 20px;
+  transition: 0.4s;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.card:hover { transform: translateY(-10px) scale(1.02); background: #1a1a1a; }
+h2 { font-size: 40px; margin-bottom: 40px; }
+footer { padding: 40px 10%; color: #666; }
+
+/* --- ANIMATIONS --- */
+.fade {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 1s ease;
+}
+.fade.visible { opacity: 1; transform: translateY(0); }
+.parallax { transform: translateY(0px); transition: transform 0.2s linear; }
+
+/* --- CANVAS NETWORK --- */
+#network-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+</style>
+</head>
+<body>
+
+<header class="parallax">
+  <h1>Я защищаю бизнес от потери денег</h1>
+  <div class="subtitle">
+    Антифрод аналитик. Выявляю мошенничество, анализирую транзакции и предотвращаю потери.
+  </div>
+  <a href="https://t.me/+aILy_JvMQUExOWI6" class="btn">Связаться</a>
+</header>
+
+<section class="fade">
+  <h2>Что я делаю</h2>
+  <div class="grid">
+    <div class="card">Анализ транзакций и выявление аномалий</div>
+    <div class="card">Поиск мошеннических схем</div>
+    <div class="card">Автоматизация проверок (SQL / Python)</div>
+  </div>
+</section>
+
+<section class="fade">
+  <h2>AI и автоматизация</h2>
+  <div class="grid">
+    <div class="card">Создание AI-скриптов для анализа данных</div>
+    <div class="card">Автоматизация отчётов и мониторинга</div>
+    <div class="card">Выявление аномалий через алгоритмы</div>
+  </div>
+</section>
+
+<section class="fade">
+  <h2>Почему мне доверяют</h2>
+  <p>
+    Опыт работы в банковской сфере. Работа с реальными кейсами мошенничества,
+    анализ больших объемов данных и оперативное принятие решений.
+  </p>
+</section>
+
+<section class="fade">
+  <h2>Контакты</h2>
+  <p>Номер для связи: 8-900-112-25-01</p>
+  <p>Telegram: @deant787</p>
+  <p>Email: holoddm1try@yandex.ru</p>
+</section>
+
+<footer>
+  © 2026 Антифрод аналитик
+</footer>
+
+<!-- CANVAS СЕТЬ -->
+<canvas id="network-canvas"></canvas>
+
+<script>
+// --- Fade on scroll ---
+const elements = document.querySelectorAll('.fade');
+function showOnScroll() {
+  const trigger = window.innerHeight * 0.85;
+  elements.forEach(el => {
+    const top = el.getBoundingClientRect().top;
+    if (top < trigger) el.classList.add('visible');
+  });
+}
+window.addEventListener('scroll', showOnScroll);
+
+// --- Parallax header ---
+window.addEventListener('scroll', () => {
+  document.querySelector('.parallax').style.transform =
+    'translateY(' + window.scrollY * 0.3 + 'px)';
+});
+
+// --- Canvas network ---
+const canvas = document.getElementById('network-canvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+const pointsCount = 80;
+const points = [];
+for (let i = 0; i < pointsCount; i++) {
+  points.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 0.5,
+    vy: (Math.random() - 0.5) * 0.5,
+    radius: 1 + Math.random() * 2
+  });
+}
+
+function animateNetwork() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Соединяем точки линиями
+  for (let i = 0; i < pointsCount; i++) {
+    const p1 = points[i];
+    for (let j = i + 1; j < pointsCount; j++) {
+      const p2 = points[j];
+      const dx = p1.x - p2.x;
+      const dy = p1.y - p2.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 150) {
+        ctx.strokeStyle = `rgba(34,197,94,${1 - dist/150})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+      }
+    }
+  }
+
+  // Рисуем точки и обновляем позиции
+  points.forEach(p => {
+    ctx.fillStyle = 'rgba(34,197,94,0.8)';
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.radius, 0, Math.PI*2);
+    ctx.fill();
+
+    p.x += p.vx;
+    p.y += p.vy;
+
+    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+  });
+
+  requestAnimationFrame(animateNetwork);
+}
+
+animateNetwork();
+</script>
+
+</body>
+</html>
