@@ -76,27 +76,27 @@ header {
 h1 { font-size: 64px; max-width: 700px; line-height: 1.1; text-align: center; }
 .subtitle { color: #aaa; font-size: 20px; margin-top: 20px; max-width: 500px; text-align: center; }
 
-/* --- Кнопка с плавным появлением --- */
+/* --- Фиксированная кнопка внизу экрана --- */
 .btn {
-  position: absolute;   /* фиксируем внизу header */
-  bottom: 10%;
+  position: fixed;   /* теперь фиксирована относительно окна */
+  bottom: 20px;      /* отступ от низа экрана */
   left: 50%;
-  transform: translateX(-50%) translateY(40px); /* изначально смещена вниз */
-  z-index: 2;
+  transform: translateX(-50%) translateY(40px); /* смещена вниз для анимации */
+  z-index: 100;
   padding: 14px 30px;
   background: white;
   color: black;
   border-radius: 30px;
   text-decoration: none;
   transition: transform 0.6s ease, opacity 0.6s ease;
-  opacity: 0; /* скрыта изначально */
+  opacity: 0; /* изначально скрыта */
 }
 .btn.visible {
-  transform: translateX(-50%) translateY(0);
   opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
-.btn:hover { transform: translateX(-50%) scale(1.05); background: #ddd; }
-.btn:active { transform: translateX(-50%) scale(0.95); background: #ccc; transition: 0.1s; }
+.btn:hover { background: #ddd; transform: translateX(-50%) scale(1.05); }
+.btn:active { background: #ccc; transform: translateX(-50%) scale(0.95); }
 
 /* --- SECTIONS --- */
 section { padding: 120px 10%; }
@@ -146,8 +146,9 @@ footer { padding: 40px 10%; color: #666; }
       Антифрод аналитик. Выявляю мошенничество, анализирую транзакции и предотвращаю потери.
     </div>
   </div>
-  <a href="https://t.me/+aILy_JvMQUExOWI6" class="btn">Связаться</a>
 </header>
+
+<a href="https://t.me/+aILy_JvMQUExOWI6" class="btn">Связаться</a>
 
 <section class="fade">
   <h2>Что я делаю</h2>
@@ -212,12 +213,10 @@ window.addEventListener('scroll', () => {
 // --- Плавное появление кнопки ---
 const btn = document.querySelector('.btn');
 function showBtnOnScroll() {
-  const trigger = window.innerHeight * 0.5;
-  if (btn) {
-    const top = btn.getBoundingClientRect().top;
-    if (top < window.innerHeight - trigger) {
-      btn.classList.add('visible');
-    }
+  if (window.scrollY > 100) { // появляется после небольшой прокрутки
+    btn.classList.add('visible');
+  } else {
+    btn.classList.remove('visible');
   }
 }
 window.addEventListener('scroll', showBtnOnScroll);
