@@ -58,19 +58,29 @@ body::after {
 header {
   height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
   padding: 0 10%;
-  position: relative; /* важно для z-index кнопки */
+  position: relative;
   z-index: 1;
 }
+
+/* Parallax только для контента */
+.parallax-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.2s linear;
+}
+
 h1 { font-size: 64px; max-width: 700px; line-height: 1.1; }
 .subtitle { color: #aaa; font-size: 20px; margin-top: 20px; max-width: 500px; }
 
 /* --- Кнопка --- */
 .btn {
-  position: relative;       /* чтобы z-index сработал */
-  z-index: 2;               /* выше всех слоев */
+  position: relative;       
+  z-index: 2;               
   margin-top: 40px;
   padding: 14px 30px;
   background: white;
@@ -84,9 +94,8 @@ h1 { font-size: 64px; max-width: 700px; line-height: 1.1; }
   transform: scale(1.05); 
   background: #ddd; 
 }
-/* --- Мобильный touch эффект --- */
 .btn:active {
-  transform: scale(0.95); /* сжатие при касании */
+  transform: scale(0.95);
   background: #ccc;
   transition: transform 0.1s, background 0.1s;
 }
@@ -117,7 +126,6 @@ footer { padding: 40px 10%; color: #666; }
   transition: 1s ease;
 }
 .fade.visible { opacity: 1; transform: translateY(0); }
-.parallax { transform: translateY(0px); transition: transform 0.2s linear; will-change: transform; }
 
 /* --- CANVAS NETWORK --- */
 #network-canvas {
@@ -126,19 +134,21 @@ footer { padding: 40px 10%; color: #666; }
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none; /* клики проходят сквозь canvas */
+  pointer-events: none;
   z-index: -1;
 }
 </style>
 </head>
 <body>
 
-<header class="parallax">
-  <h1>Я защищаю бизнес от потери денег</h1>
-  <div class="subtitle">
-    Антифрод аналитик. Выявляю мошенничество, анализирую транзакции и предотвращаю потери.
+<header>
+  <div class="parallax-content">
+    <h1>Я защищаю бизнес от потери денег</h1>
+    <div class="subtitle">
+      Антифрод аналитик. Выявляю мошенничество, анализирую транзакции и предотвращаю потери.
+    </div>
+    <a href="https://t.me/+aILy_JvMQUExOWI6" class="btn">Связаться</a>
   </div>
-  <a href="https://t.me/+aILy_JvMQUExOWI6" class="btn">Связаться</a>
 </header>
 
 <section class="fade">
@@ -195,8 +205,10 @@ window.addEventListener('scroll', showOnScroll);
 
 // --- Parallax header ---
 window.addEventListener('scroll', () => {
-  document.querySelector('.parallax').style.transform =
-    'translateY(' + window.scrollY * 0.3 + 'px)';
+  const parallaxContent = document.querySelector('.parallax-content');
+  if (parallaxContent) {
+    parallaxContent.style.transform = 'translateY(' + window.scrollY * 0.3 + 'px)';
+  }
 });
 
 // --- Canvas network ---
@@ -225,7 +237,6 @@ for (let i = 0; i < pointsCount; i++) {
 function animateNetwork() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Соединяем точки линиями
   for (let i = 0; i < pointsCount; i++) {
     const p1 = points[i];
     for (let j = i + 1; j < pointsCount; j++) {
@@ -244,7 +255,6 @@ function animateNetwork() {
     }
   }
 
-  // Рисуем точки и обновляем позиции
   points.forEach(p => {
     ctx.fillStyle = 'rgba(34,197,94,0.8)';
     ctx.beginPath();
