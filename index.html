@@ -56,49 +56,47 @@ body::after {
 
 /* --- HEADER --- */
 header {
+  position: relative;
   height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: center; /* центрируем текст вертикально */
   align-items: center;
   padding: 0 10%;
-  position: relative;
-  z-index: 1;
 }
 
-/* Parallax только для контента */
-.parallax-content {
+/* Обёртка текста для parallax */
+.parallax-text {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  position: relative;
+  align-items: center;
   transition: transform 0.2s linear;
 }
 
-h1 { font-size: 64px; max-width: 700px; line-height: 1.1; }
-.subtitle { color: #aaa; font-size: 20px; margin-top: 20px; max-width: 500px; }
+h1 { font-size: 64px; max-width: 700px; line-height: 1.1; text-align: center; }
+.subtitle { color: #aaa; font-size: 20px; margin-top: 20px; max-width: 500px; text-align: center; }
 
-/* --- Кнопка --- */
+/* --- Кнопка с плавным появлением --- */
 .btn {
-  position: relative;       
-  z-index: 2;               
-  margin-top: 40px;
+  position: absolute;   /* фиксируем внизу header */
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%) translateY(40px); /* изначально смещена вниз */
+  z-index: 2;
   padding: 14px 30px;
   background: white;
   color: black;
-  text-decoration: none;
   border-radius: 30px;
-  width: fit-content;
-  transition: 0.3s;
+  text-decoration: none;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  opacity: 0; /* скрыта изначально */
 }
-.btn:hover { 
-  transform: scale(1.05); 
-  background: #ddd; 
+.btn.visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
 }
-.btn:active {
-  transform: scale(0.95);
-  background: #ccc;
-  transition: transform 0.1s, background 0.1s;
-}
+.btn:hover { transform: translateX(-50%) scale(1.05); background: #ddd; }
+.btn:active { transform: translateX(-50%) scale(0.95); background: #ccc; transition: 0.1s; }
 
 /* --- SECTIONS --- */
 section { padding: 120px 10%; }
@@ -142,13 +140,13 @@ footer { padding: 40px 10%; color: #666; }
 <body>
 
 <header>
-  <div class="parallax-content">
+  <div class="parallax-text">
     <h1>Я защищаю бизнес от потери денег</h1>
     <div class="subtitle">
       Антифрод аналитик. Выявляю мошенничество, анализирую транзакции и предотвращаю потери.
     </div>
-    <a href="https://t.me/+aILy_JvMQUExOWI6" class="btn">Связаться</a>
   </div>
+  <a href="https://t.me/+aILy_JvMQUExOWI6" class="btn">Связаться</a>
 </header>
 
 <section class="fade">
@@ -203,13 +201,27 @@ function showOnScroll() {
 }
 window.addEventListener('scroll', showOnScroll);
 
-// --- Parallax header ---
+// --- Parallax header (только текст) ---
 window.addEventListener('scroll', () => {
-  const parallaxContent = document.querySelector('.parallax-content');
-  if (parallaxContent) {
-    parallaxContent.style.transform = 'translateY(' + window.scrollY * 0.3 + 'px)';
+  const text = document.querySelector('.parallax-text');
+  if (text) {
+    text.style.transform = 'translateY(' + window.scrollY * 0.3 + 'px)';
   }
 });
+
+// --- Плавное появление кнопки ---
+const btn = document.querySelector('.btn');
+function showBtnOnScroll() {
+  const trigger = window.innerHeight * 0.5;
+  if (btn) {
+    const top = btn.getBoundingClientRect().top;
+    if (top < window.innerHeight - trigger) {
+      btn.classList.add('visible');
+    }
+  }
+}
+window.addEventListener('scroll', showBtnOnScroll);
+window.addEventListener('load', showBtnOnScroll);
 
 // --- Canvas network ---
 const canvas = document.getElementById('network-canvas');
